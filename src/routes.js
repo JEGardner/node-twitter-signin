@@ -11,7 +11,7 @@ module.exports = function(consumerKey, consumerSecret, oauth_callback, userHandl
 
 
 function registerRoutes(userHandler, callback_render) {
-    api.get('/twitter/signin', function(req, res, next) {
+    api.post('/twitter/signin', function(req, res, next) {
 
         twitter
             .getRequestToken()
@@ -19,7 +19,7 @@ function registerRoutes(userHandler, callback_render) {
 
     });
 
-    api.get('/twitter/callback', function(req, res, next) {
+    api.post('/twitter/callback', function(req, res, next) {
 
         twitter
             .getAccessToken(req.query.oauth_token, req.query.oauth_verifier)
