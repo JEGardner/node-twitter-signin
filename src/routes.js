@@ -15,7 +15,7 @@ function registerRoutes(userHandler, callback_render) {
 
         twitter
             .getRequestToken()
-            .then(token => httpUtils.sendSuccessResponse(res, { request_token: token }), err => httpUtils.serverError(res, err));
+            .then(token => httpUtils.sendSuccessResponse(res, { oauth_token: token }), err => httpUtils.serverError(res, err));
 
     });
 
