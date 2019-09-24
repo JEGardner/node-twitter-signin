@@ -19,7 +19,7 @@ function registerRoutes(userHandler, callback_render) {
 
     });
 
-    api.post('/twitter/callback', function(req, res, next) {
+    api.get('/twitter/callback', function(req, res, next) {
 
         twitter
             .getAccessToken(req.query.oauth_token, req.query.oauth_verifier)
