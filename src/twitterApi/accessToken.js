@@ -29,7 +29,7 @@ exports.access_token = function(oauth_token, oauth_verifier){
                 else{
                     reject({
                         msg: errors.ACCESS_TOKEN_ERROR, 
-                        details: JSON.parse(body)
+                        details: body
                     });
                 }
             }
