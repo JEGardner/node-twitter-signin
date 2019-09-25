@@ -16,7 +16,7 @@ function registerRoutes(callback) {
             .then(token => httpUtils.sendSuccessResponse(res, { oauth_token: token }), err => httpUtils.serverError(res, err));
     });
 
-    api.get('/twitter/callback', function(req, res, next) {
+    api.post('/twitter/callback', function(req, res, next) {
         twitter
             .getAccessToken(req.query.oauth_token, req.query.oauth_verifier)
             .then(token => {
