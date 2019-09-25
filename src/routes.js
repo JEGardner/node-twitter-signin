@@ -3,45 +3,31 @@ const api = Router();
 const twitter = require('./twitterApi/apiFacade.js');
 const httpUtils = require('./httpUtils.js');
 
-module.exports = function(consumerKey, consumerSecret, oauth_callback, userHandler, callback_render) {
+module.exports = function(consumerKey, consumerSecret, oauth_callback, callback) {
     twitter.init(consumerKey, consumerSecret, oauth_callback);
-    registerRoutes(userHandler, callback_render);
+    registerRoutes(callback);
     return api;
 };
 
-
-function registerRoutes(userHandler, callback_render) {
+function registerRoutes(callback) {
     api.post('/twitter/signin', function(req, res, next) {
-
         twitter
             .getRequestToken()
             .then(token => httpUtils.sendSuccessResponse(res, { oauth_token: token }), err => httpUtils.serverError(res, err));
-
     });
 
     api.get('/twitter/callback', function(req, res, next) {
-
         twitter
             .getAccessToken(req.query.oauth_token, req.query.oauth_verifier)
             .then(token => {
                 twitter
                     .getUserDetails(token)
                     .then(user => {
-                        if (userHandler) {
+                        if (callback) {
                             token.request_token = req.query.oauth_token;
-                            userHandler(user, token, req);
+                            callback(req, res, user, token);
                         }
-                        if (callback_render) {
-                            res.status(200);
-                            callback_render(res);
-                        } else {
-                            httpUtils.sendSuccessResponse(res, {});
-                        }
-
-
                     }, err => httpUtils.serverError(res, err));
-
             }, err => httpUtils.serverError(res, err));
-
     });
 }
