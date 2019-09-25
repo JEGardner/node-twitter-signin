@@ -26,7 +26,7 @@ exports.requestToken = function (){
                 else{
                     reject({
                         msg: errors.REQUEST_TOKEN_ERROR, 
-                        details: JSON.parse(body)
+                        details: body
                     });
                 }
             }
